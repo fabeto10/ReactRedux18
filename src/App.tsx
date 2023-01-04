@@ -1,42 +1,130 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
+import React from "react";
+import styled from "styled-components";
+import "./App.css";
 
-/* Core CSS required for Ionic components to work properly */
-import '@ionic/react/css/core.css';
+import { RootState } from "./redux-functionality";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  increment,
+  decrement,
+  setCounter,
+  incrementByAmount,
+} from "./redux-functionality/slices/counterSlice";
 
-/* Basic CSS for apps built with Ionic */
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+`;
 
-/* Optional CSS utils that can be commented out */
-import '@ionic/react/css/padding.css';
-import '@ionic/react/css/float-elements.css';
-import '@ionic/react/css/text-alignment.css';
-import '@ionic/react/css/text-transformation.css';
-import '@ionic/react/css/flex-utils.css';
-import '@ionic/react/css/display.css';
+const CounterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  color: black;
+  font-size: 18px;
+`;
 
-/* Theme variables */
-import './theme/variables.css';
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
 
-setupIonicReact();
+const Button = styled.div`
+  color: black;
+  font-size: 18px;
+  width: 200px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  border-radius: 8px;
+  cursor: pointer;
+  color: black;
+  background-color: white;
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+  :hover {
+    color: white;
+    background-color: black;
+  }
+`;
+
+const Input = styled.input`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  width: 100%;
+  color: black;
+  font-size: 18px;
+`;
+
+function App() {
+  const counter: number = useSelector(
+    (state: RootState) => state.counter.value
+  );
+  const dispatch = useDispatch();
+  return (
+    <Container>
+      <CounterContainer>
+        <p>
+          Counter Value : <b>{counter}</b>
+        </p>
+        <br />
+        <ButtonContainer>
+          <Button
+            onClick={() => {
+              dispatch(increment());
+            }}
+          >
+            Add 1
+          </Button>
+          <Button
+            onClick={() => {
+              dispatch(decrement());
+            }}
+          >
+            Subtract 1
+          </Button>
+          <Button
+            onClick={() => {
+              dispatch(incrementByAmount(10));
+            }}
+          >
+            Add 10
+          </Button>
+          <Button
+            onClick={() => {
+              dispatch(incrementByAmount(-10));
+            }}
+          >
+            Subtract 10
+          </Button>
+        </ButtonContainer>
+        <br />
+        <ButtonContainer>
+          <p>Or set it here</p>
+          <Input
+            value={counter}
+            onChange={(ev) => {
+              const newValue = ev.target.value;
+              dispatch(setCounter(parseFloat(newValue)));
+            }}
+          />
+        </ButtonContainer>
+      </CounterContainer>
+    </Container>
+  );
+}
 
 export default App;
