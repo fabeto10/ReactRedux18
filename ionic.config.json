@@ -1,0 +1,7 @@
+{
+  "name": "tourR0.1",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
