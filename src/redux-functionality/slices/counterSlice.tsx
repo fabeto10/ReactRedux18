@@ -29,6 +29,6 @@ export const counterSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount, setCounter } =counterSlice.actions;
+export const { increment, decrement, incrementByAmount, setCounter } = counterSlice.actions;
 // You must export the reducer as follows for it to be able to be read by the store.
 export default counterSlice.reducer;

@@ -4,6 +4,7 @@ import "./App.css";
 
 import { RootState } from "./redux-functionality";
 import { useDispatch, useSelector } from "react-redux";
+import { allProducts } from "./redux-functionality/slices/products";
 import {
   increment,
   decrement,
@@ -73,6 +74,9 @@ function App() {
   const counter: number = useSelector(
     (state: RootState) => state.counter.value
   );
+  const products: object[] = useSelector(
+    (state: RootState) => state.products
+  );
   const dispatch = useDispatch();
   return (
     <Container>
@@ -82,6 +86,9 @@ function App() {
         </p>
         <br />
         <ButtonContainer>
+          <Button onClick={() => dispatch(allProducts())}>
+            console.log
+          </Button>
           <Button
             onClick={() => {
               dispatch(increment());
